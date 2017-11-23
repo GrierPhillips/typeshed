@@ -2,7 +2,6 @@ from typing import Any, Dict, Tuple, Union
 
 from bson.codec_options import CodecOptions
 from pymongo.auth import MongoCredential
-from pymongo import common
 from pymongo.pool import PoolOptions
 from pymongo.read_concern import ReadConcern
 from pymongo.read_preferences import _ServerMode
