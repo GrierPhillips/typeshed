@@ -1,7 +1,5 @@
 from typing import Any, Dict, Optional, Union
 
-from pymongo import common
-
 
 class CollationStrength(object):
     PRIMARY: int = 1
