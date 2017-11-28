@@ -66,10 +66,12 @@ class Collection(common.BaseObject):
         -> 'Collection': ...
     def initialize_unordered_bulk_op(
         self,
-        bypass_document_validation: bool = False) -> bulk.BulkOperationBuilder: ...
+        bypass_document_validation: bool = False)\
+        -> bulk.BulkOperationBuilder: ...
     def initialize_ordered_bulk_op(
         self,
-        bypass_document_validation: bool = False) -> bulk.BulkOperationBuilder: ...
+        bypass_document_validation: bool = False)\
+        -> bulk.BulkOperationBuilder: ...
     def bulk_write(
         self,
         requests: List[Union[
@@ -201,7 +203,7 @@ class Collection(common.BaseObject):
     def rename(self, new_name: str,
                **kwargs: Dict[str, Any]) -> Dict[str, Any]: ...
     def distinct(self, key: str, filter: Optional[Dict[str, Any]] = None,
-                 **kwargs: Dict[str, Any]) -> Dict[str, Any]: ...
+                 **kwargs: Dict[str, Any]) -> List[Any]: ...
     def map_reduce(self, map: str, reduce: str,
                    out: Union[str, Dict[str, Any]],
                    full_response: bool = False,
@@ -217,7 +219,7 @@ class Collection(common.BaseObject):
         self,
         filter: Dict[str, Any],
         projection: Union[List[str], Dict[str, bool]],
-        sort: List[Tuple[str, Any]],
+        sort: List[Tuple[str, Union[int, str]]],
         upsert: Optional[bool] = None,
         return_document: bool = ReturnDocument.BEFORE,
         **kwargs: Any) -> Dict[str, Any]: ...
@@ -225,14 +227,14 @@ class Collection(common.BaseObject):
         self,
         filter: Dict[str, Any],
         projection: Optional[Union[List[str], Dict[str, bool]]] = None,
-        sort: Optional[List[Tuple[str, Any]]] = None,
+        sort: Optional[List[Tuple[str, Union[int, str]]]] = None,
         **kwargs: Any) -> Dict[str, Any]: ...
     def find_one_and_replace(
         self,
         filter: Dict[str, Any],
         replacement: Dict[str, Any],
         projection: Optional[Union[List[str], Dict[str, bool]]] = None,
-        sort: Optional[List[Tuple[str, Any]]] = None,
+        sort: Optional[List[Tuple[str, Union[int, str]]]] = None,
         upsert: bool = False,
         return_document: bool = ReturnDocument.BEFORE,
         **kwargs: Any) -> Dict[str, Any]: ...
@@ -241,7 +243,7 @@ class Collection(common.BaseObject):
         filter: Dict[str, Any],
         update: Dict[str, Any],
         projection: Optional[Union[List[str], Dict[str, bool]]] = None,
-        sort: Optional[List[Tuple[str, Any]]] = None,
+        sort: Optional[List[Tuple[str, Union[int, str]]]] = None,
         upsert: bool = False,
         return_document: bool = ReturnDocument.BEFORE,
         **kwargs: Any) -> Dict[str, Any]: ...
@@ -256,11 +258,14 @@ class Collection(common.BaseObject):
                **kwargs: Any) -> Dict[str, Any]: ...
     def remove(self, spec_or_id: Optional[Dict[str, Any]] = None,
                multi: bool = True, **kwargs: Any) -> Dict[str, Any]: ...
-    def find_and_modify(self, query: Dict[str, Any] = {},
-                        update: Dict[str, Any] = None, upsert: bool = False,
-                        sort: Optional[List[Tuple[str, Any]]] = None,
-                        full_response: bool = False, manipulate: bool = False,
-                        **kwargs: Any) -> Dict[str, Any]: ...
+    def find_and_modify(self,
+        query: Dict[str, Any] = {},
+        update: Dict[str, Any] = None,
+        upsert: bool = False,
+        sort: Optional[List[Tuple[str, Union[int, str]]]] = None,
+        full_response: bool = False,
+        manipulate: bool = False,
+        **kwargs: Any) -> Dict[str, Any]: ...
     def __iter__(self) -> 'Collection': ...
     def __next__(self) -> None: ...
     def __call__(self, *args: Any, **kwargs: Any) -> None: ...
