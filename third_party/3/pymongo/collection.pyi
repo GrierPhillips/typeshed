@@ -3,38 +3,45 @@ from typing import (Any, Callable, Dict, Iterable, Iterator, List, Mapping,
 
 import bson
 from bson.codec_options import CodecOptions
-from pymongo import (bulk, command_cursor, common, cursor, operations, pool,
-                     read_preferences, results)
+from pymongo.bulk import BulkOperationBuilder
 from pymongo.collation import Collation
+from pymongo.command_cursor import CommandCursor
+from pymongo.common import BaseObject
+from pymongo.cursor import Cursor
 from pymongo.database import Database
+from pymongo.operations import IndexModel, _WriteOp
+from pymongo.pool import SocketInfo
 from pymongo.read_concern import DEFAULT_READ_CONCERN, ReadConcern
+from pymongo.read_preferences import _ServerMode
+from pymongo.results import (BulkWriteResult, DeleteResult, InsertManyResult,
+                             InsertOneResult, UpdateResult)
 from pymongo.write_concern import WriteConcern
 
 
 class ReturnDocument(object):
     BEFORE: bool = False
     AFTER: bool = True
-class Collection(common.BaseObject):
+class Collection(BaseObject):
     def __init__(
         self,
         database: Database,
         name: str,
         create: Optional[bool] = False,
         codec_options: Optional[CodecOptions] = None,
-        read_preference: Optional[read_preferences._ServerMode] = None,
+        read_preference: Optional[_ServerMode] = None,
         write_concern: Optional[WriteConcern] = None,
         read_concern: Optional[ReadConcern] = None,
         **kwargs: Any) -> None: ...
-    def _socket_for_reads(self) -> Iterator[Tuple[pool.SocketInfo, bool]]: ...
+    def _socket_for_reads(self) -> Iterator[Tuple[SocketInfo, bool]]: ...
     def _socket_for_primary_reads(self)\
-        -> Iterator[Tuple[pool.SocketInfo, bool]]: ...
-    def _socket_for_writes(self) -> Iterator[pool.SocketInfo]: ...
+        -> Iterator[Tuple[SocketInfo, bool]]: ...
+    def _socket_for_writes(self) -> Iterator[SocketInfo]: ...
     def _command(
         self,
-        sock_info: pool.SocketInfo,
+        sock_info: SocketInfo,
         command: Dict[str, Any],
         slave_ok: bool = False,
-        read_preference: Optional[read_preferences._ServerMode] = None,
+        read_preference: Optional[_ServerMode] = None,
         codec_options: Optional[CodecOptions] = None,
         check: bool = True,
         allowable_errors: Optional[List[str]] = None,
@@ -60,32 +67,27 @@ class Collection(common.BaseObject):
     def with_options(
         self,
         codec_options: Optional[CodecOptions] = None,
-        read_preference: Optional[read_preferences._ServerMode] = None,
+        read_preference: Optional[_ServerMode] = None,
         write_concern: Optional[WriteConcern] = None,
         read_concern: Optional[ReadConcern] = None)\
         -> 'Collection': ...
     def initialize_unordered_bulk_op(
         self,
         bypass_document_validation: bool = False)\
-        -> bulk.BulkOperationBuilder: ...
+        -> BulkOperationBuilder: ...
     def initialize_ordered_bulk_op(
         self,
         bypass_document_validation: bool = False)\
-        -> bulk.BulkOperationBuilder: ...
+        -> BulkOperationBuilder: ...
     def bulk_write(
         self,
-        requests: List[Union[
-            operations.InsertOne,
-            operations._UpdateOp,
-            operations.ReplaceOne,
-            operations.DeleteOne,
-            operations.DeleteMany]],
+        requests: List[_WriteOp],
         ordered: bool = True,
         bypass_document_validation: bool = False)\
-        -> results.BulkWriteResult: ...
+        -> BulkWriteResult: ...
     def _legacy_write(
         self,
-        sock_info: pool.SocketInfo,
+        sock_info: SocketInfo,
         name: str,
         cmd: Dict[str, Any],
         acknowledged: bool,
@@ -95,7 +97,7 @@ class Collection(common.BaseObject):
         *args: Any) -> Dict[str, Any]: ...
     def _insert_one(
         self,
-        sock_info: pool.SocketInfo,
+        sock_info: SocketInfo,
         doc: Dict[str, Any],
         ordered: bool,
         check_keys: bool,
@@ -105,7 +107,7 @@ class Collection(common.BaseObject):
         bypass_doc_val: bool) -> Any: ...
     def _insert(
         self,
-        sock_info: pool.SocketInfo,
+        sock_info: SocketInfo,
         docs: Dict[str, Any],
         ordered: bool = True,
         check_keys: bool = True,
@@ -118,14 +120,14 @@ class Collection(common.BaseObject):
         self,
         document: Any,
         bypass_document_validation: bool = False)\
-        -> results.InsertOneResult: ...
+        -> InsertOneResult: ...
     def insert_many(
         self,
         documents: Iterable[Any],
         ordered: bool = True,
         bypass_document_validation: bool = False)\
-        -> results.InsertManyResult: ...
-    def _update(self, sock_info: pool.SocketInfo, criteria: Dict[str, Any],
+        -> InsertManyResult: ...
+    def _update(self, sock_info: SocketInfo, criteria: Dict[str, Any],
                 document: Dict[str, Any], upsert: bool = False,
                 check_keys: bool = True, multi: bool = False,
                 manipulate: bool = False,
@@ -139,43 +141,43 @@ class Collection(common.BaseObject):
         replacement: Dict[str, Any],
         upsert: bool = False,
         bypass_document_validation: bool = False,
-        collation: Optional[Collation] = None) -> results.UpdateResult: ...
+        collation: Optional[Collation] = None) -> UpdateResult: ...
     def update_one(
         self,
         filter: Dict[str, Any],
         update: Dict[str, Any],
         upsert: bool = False,
         bypass_document_validation: bool = False,
-        collation: Optional[Collation] = None) -> results.UpdateResult: ...
+        collation: Optional[Collation] = None) -> UpdateResult: ...
     def update_many(self, filter: Dict[str, Any], update: Dict[str, Any],
                     upsert: bool = False,
                     array_filters: Optional[List[Any]] = None,
                     bypass_document_validation: bool = False,
                     collation: Optional[Collation] = None)\
-        -> results.UpdateResult: ...
+        -> UpdateResult: ...
     def drop(self) -> None: ...
     def _delete(
-            self, sock_info: pool.SocketInfo, criteria: Dict[str, Any],
+            self, sock_info: SocketInfo, criteria: Dict[str, Any],
             multi: bool, write_concern: Optional[WriteConcern] = None,
             op_id: Optional[int] = None, ordered: bool = True,
             collation: Optional[Collation] = None) -> Dict[str, Any]: ...
     def delete_one(self, filter: Dict[str, Any],
                    collation: Optional[Collation] = None)\
-        -> results.DeleteResult: ...
+        -> DeleteResult: ...
     def delete_many(self, filter: Dict[str, Any],
                     collation: Optional[Collation] = None)\
-        -> results.DeleteResult: ...
+        -> DeleteResult: ...
     def find_one(self, filter: Optional[Dict[str, Any]] = None,
                  *args: Any, **kwargs: Any)\
         -> Union[Dict[str, Any], None]: ...
-    def find(self, *args: Any, **kwargs: Any) -> cursor.Cursor: ...
+    def find(self, *args: Any, **kwargs: Any) -> Cursor: ...
     def parallel_scan(self, num_cursors: int, **kwargs: Any)\
-        -> List[command_cursor.CommandCursor]: ...
+        -> List[CommandCursor]: ...
     def _count(self, cmd: Mapping[str, Any],
                collation: Optional[Collation] = None) -> int: ...
     def count(self, filter: Optional[Mapping[str, Any]] = None, **kwargs: Any)\
         -> int: ...
-    def create_indexes(self, indexes: List[operations.IndexModel],
+    def create_indexes(self, indexes: List[IndexModel],
                        **kwargs: Any) -> List[str]: ...
     def __create_index(self, keys: List[Tuple[str, Union[int, str]]],
                        index_options: Dict[str, Any]) -> None: ...
@@ -189,13 +191,13 @@ class Collection(common.BaseObject):
     def drop_indexes(self) -> None: ...
     def drop_index(self, index_or_name: Any) -> None: ...
     def reindex(self) -> Dict[str, Any]: ...
-    def list_indexes(self) -> command_cursor.CommandCursor: ...
+    def list_indexes(self) -> CommandCursor: ...
     def index_information(self) -> Dict[str, Any]: ...
     def options(self) -> Dict[str, Any]: ...
     def _aggregate(self, pipeline: List[Dict[str, Any]], **kwargs: Any)\
-        -> command_cursor.CommandCursor: ...
+        -> CommandCursor: ...
     def aggregate(self, pipeline: List[Dict[str, Any]], **kwargs: Any)\
-        -> command_cursor.CommandCursor: ...
+        -> CommandCursor: ...
     def group(self, key: Union[List[str], Dict[str, Any], bson.Code],
               condition: Dict[str, Any], initial: Any, reduce: str,
               finalize: str = None, **kwargs: Any)\
