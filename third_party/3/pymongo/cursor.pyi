@@ -1,27 +1,10 @@
-import copy
-import datetime
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Union
 
-from collections import deque
-
-from bson import RE_TYPE
-from bson.code import Code
-from bson.py3compat import (iteritems,
-                            integer_types,
-                            string_type)
-from bson import SON, Code
-from pymongo import helpers
-from pymongo.common import validate_boolean, validate_is_mapping
-from pymongo.collation import Collation, validate_collation_or_none
+from bson import Code
+from pymongo.collation import Collation
 from pymongo.collection import Collection
-from pymongo.errors import (AutoReconnect,
-                            ConnectionFailure,
-                            InvalidOperation,
-                            NotMasterError,
-                            OperationFailure)
-from pymongo.message import _CursorAddress, _GetMore, _Query, _convert_exception
+from pymongo.message import _GetMore, _Query
 from pymongo.pool import Pool, SocketInfo
-from pymongo.read_preferences import ReadPreference
 
 _QUERY_OPTIONS: Dict[str, int] = {
     "tailable_cursor": 2,
