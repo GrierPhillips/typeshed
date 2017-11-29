@@ -163,7 +163,7 @@ class Collection(common.BaseObject):
                    collation: Optional[Collation] = None)\
         -> results.DeleteResult: ...
     def delete_many(self, filter: Dict[str, Any],
-                   collation: Optional[Collation] = None)\
+                    collation: Optional[Collation] = None)\
         -> results.DeleteResult: ...
     def find_one(self, filter: Optional[Dict[str, Any]] = None,
                  *args: Any, **kwargs: Any)\
