@@ -105,6 +105,7 @@ class Collection(common.BaseObject):
         bypass_doc_val: bool) -> Any: ...
     def _insert(
         self,
+        sock_info: pool.SocketInfo,
         docs: Dict[str, Any],
         ordered: bool = True,
         check_keys: bool = True,
