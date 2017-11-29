@@ -1,12 +1,7 @@
 from typing import Any, Dict, List, Mapping, Optional, Tuple, Union
 
-from bson.py3compat import integer_types
-from pymongo import max_staleness_selectors
-from pymongo.errors import ConfigurationError
 from pymongo.server_description import ServerDescription
-from pymongo.server_selectors import (Selection, member_with_tags_server_selector,
-                                      secondary_with_tags_server_selector)
-
+from pymongo.server_selectors import Selection
 
 _PRIMARY: int = 0
 _PRIMARY_PREFERRED: int = 1
