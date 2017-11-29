@@ -61,7 +61,7 @@ class Database(common.BaseObject):
     def _fix_outgoing(self, son: SON, collection: Collection) -> SON: ...
     def _command(self, sock_info: SocketInfo, command: Union[str, SON],
                  slave_ok: bool = False, value: int = 1, check: bool = True,
-                 allowable_errors: Optional[Any] = None,
+                 allowable_errors: Optional[List[str]] = None,
                  read_preference: _ServerMode = ReadPreference.PRIMARY,
                  codec_options: CodecOptions = DEFAULT_CODEC_OPTIONS,
                  write_concern: Optional[WriteConcern] = None,
@@ -69,7 +69,7 @@ class Database(common.BaseObject):
         -> Any: ...
     def command(self, command: Union[str, Dict[str, Any]], value: int = 1,
                 check: bool = True,
-                allowable_errors: Optional[Any] = None,
+                allowable_errors: Optional[List[str]] = None,
                 read_preference: _ServerMode = ReadPreference.PRIMARY,
                 codec_options: CodecOptions = DEFAULT_CODEC_OPTIONS,
                 **kwargs: Any) -> Any: ...

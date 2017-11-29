@@ -37,7 +37,7 @@ class Collection(common.BaseObject):
         read_preference: Optional[read_preferences._ServerMode] = None,
         codec_options: Optional[CodecOptions] = None,
         check: bool = True,
-        allowable_errors: Optional[Any] = None,
+        allowable_errors: Optional[List[str]] = None,
         read_concern: Optional[ReadConcern] = DEFAULT_READ_CONCERN,
         write_concern: Optional[WriteConcern] = None,
         parse_write_concern_error: bool = False,
