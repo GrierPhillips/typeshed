@@ -1,4 +1,3 @@
-from collections import namedtuple
 from typing import Any, Dict, FrozenSet, NamedTuple
 
 from pymongo import pool
@@ -7,21 +6,16 @@ from pymongo import pool
 MECHANISMS: FrozenSet = frozenset(
     ['GSSAPI', 'MONGODB-CR', 'MONGODB-X509', 'PLAIN', 'SCRAM-SHA-1',
      'DEFAULT'])
-
-
 class MongoCredential(NamedTuple):
     mechanism: str
     source: str
     username: str
     password: str
     props: Any
-
 class GSSAPIProperties(NamedTuple):
     service_name: str
     canonicalize_host_name: bool
     service_realm: Any
-
-
 def _build_credentials_tuple(mech: str, source: str, user: str, passwd: str,
                              extra: Dict[str, Any]) -> MongoCredential: ...
 
