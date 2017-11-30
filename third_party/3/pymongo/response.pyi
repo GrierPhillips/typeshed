@@ -21,7 +21,7 @@ class Response(object):
 class ExhaustResponse(Response):
     def __init__(self, data: bytes, address: Tuple[str, int],
                  socket_info: SocketInfo, pool: Pool, request_id: int,
-                 duration: datetime.timedelta, from_command : bool)\
+                 duration: datetime.timedelta, from_command: bool)\
         -> None: ...
     @property
     def socket_info(self) -> SocketInfo: ...
