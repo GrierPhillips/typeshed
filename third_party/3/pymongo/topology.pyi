@@ -1,8 +1,5 @@
 from typing import Callable, List, Optional, Sequence, Set, Tuple, Union
-if PY3:
-    import queue as Queue
-else:
-    import Queue
+from queue import Queue
 
 from pymongo.pool import Pool
 from pymongo.server import Server
@@ -11,7 +8,7 @@ from pymongo.server_selectors import Selection
 from pymongo.settings import TopologySettings
 
 
-def process_events_queue(queue_ref: type) -> bool: ...
+def process_events_queue(queue_ref: Queue) -> bool: ...
 class Topology(object):
     """Monitor a topology of one or more servers."""
     def __init__(self, topology_settings: TopologySettings) -> None: ...

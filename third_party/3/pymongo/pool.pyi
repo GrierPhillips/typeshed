@@ -1,4 +1,5 @@
 from socket import socket
+from ssl import SSLContext
 from typing import Any, Dict, List, Mapping, Optional, Tuple, Union
 
 from bson.codec_options import DEFAULT_CODEC_OPTIONS, CodecOptions
@@ -8,7 +9,6 @@ from pymongo.ismaster import IsMaster
 from pymongo.monitoring import _EventListeners
 from pymongo.read_concern import DEFAULT_READ_CONCERN, ReadConcern
 from pymongo.read_preferences import ReadPreference, _ServerMode
-from pymongo.ssl_support import SSLContext
 from pymongo.write_concern import WriteConcern
 
 
