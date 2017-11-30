@@ -1,11 +1,13 @@
 from typing import NamedTuple
 
-class SERVER_TYPE(NamedTuple):
-    Unknown: int = 0
-    Mongos: int = 1
-    RSPrimary: int = 2
-    RSSecondary: int = 3
-    RSArbiter: int = 4
-    RSOther: int = 5
-    RSGhost: int = 6
-    Standalone: int = 7
+class ServerType(NamedTuple):
+    Unknown: int
+    Mongos: int
+    RSPrimary: int
+    RSSecondary: int
+    RSArbiter: int
+    RSOther: int
+    RSGhost: int
+    Standalone: int
+
+SERVER_TYPE: ServerType = ServerType(*range(8))
