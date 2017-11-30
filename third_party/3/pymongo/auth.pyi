@@ -1,6 +1,8 @@
-from typing import Any, Dict, NamedTuple
+from typing import Any, Dict, FrozenSet, NamedTuple
 
 from pymongo.pool import SocketInfo
+
+MECHANISMS: FrozenSet[str] = ...
 
 class MongoCredential(NamedTuple):
     mechanism: str
