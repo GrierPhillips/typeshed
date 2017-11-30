@@ -9,14 +9,18 @@ MECHANISMS: FrozenSet = frozenset(
      'DEFAULT'])
 
 
-MongoCredential: NamedTuple = namedtuple(
-    'MongoCredential',
-    ['mechanism', 'source', 'username', 'password', 'mechanism_properties'])
+class MongoCredential(NamedTuple):
+    mechanism: str
+    source: str
+    username: str
+    password: str
+    props: Any
 
-GSSAPIProperties: NamedTuple = namedtuple('GSSAPIProperties',
-                                          ['service_name',
-                                           'canonicalize_host_name',
-                                           'service_realm'])
+class GSSAPIProperties(NamedTuple):
+    service_name: str
+    canonicalize_host_name: bool
+    service_realm: Any
+
 
 def _build_credentials_tuple(mech: str, source: str, user: str, passwd: str,
                              extra: Dict[str, Any]) -> MongoCredential: ...
