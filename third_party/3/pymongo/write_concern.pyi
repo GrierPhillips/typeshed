@@ -1,9 +1,7 @@
 from typing import Any, Dict, Optional, Union
 
 class WriteConcern(object):
-    def __init__(self, w: Optional[Union[int, str]] = None,
-                 wtimeout: Optional[int] = None, j: Optional[bool] = None,
-                 fsync: Optional[bool] = None) -> None: ...
+    def __init__(self, w: Optional[Union[int, str]] = ..., wtimeout: Optional[int] = ..., j: Optional[bool] = ..., fsync: Optional[bool] = ...) -> None: ...
     @property
     def document(self) -> Dict[str, Any]: ...
     @property
