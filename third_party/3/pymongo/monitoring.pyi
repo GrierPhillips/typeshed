@@ -1,4 +1,4 @@
-from typing import (Any, Mapping, NamedTuple, Optional, Set, Sequence,
+from typing import (Any, Dict, Mapping, NamedTuple, Optional, Set, Sequence,
                     Tuple, Union)
 import datetime
 
