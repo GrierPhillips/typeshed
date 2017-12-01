@@ -10,4 +10,4 @@ class ServerType(NamedTuple):
     RSGhost: int
     Standalone: int
 
-SERVER_TYPE: ServerType = ServerType(*range(8))
+SERVER_TYPE: ServerType = ...
